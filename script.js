@@ -259,7 +259,7 @@
     if (!form) return;
     /* Web3Forms access keys, one per inbox. Each key is created for one email address on web3forms.com.
        Put the key for basemmorsy005@gmail.com first and the key for marsebasem@gmail.com second; the message is sent to every key listed. */
-    var FORM_KEYS = [];
+    var FORM_KEYS = ['d29acdfa-5913-43c2-aaa1-f63d27f64dae', '6ab75a38-7296-4a4c-be5a-b5ca81b69cf8'];
     var WA = '201091549086';
     var btn = document.getElementById('fsend'), msgEl = document.getElementById('fmsg');
     var fb = document.getElementById('ffall'), wa = document.getElementById('fwa'), cp = document.getElementById('fcopy');
