@@ -285,6 +285,10 @@ footer a { text-decoration: none; }
 .cvscroll h2 { font-size: 17px; color: var(--accent-soft); border-bottom: 1px solid var(--line); padding-bottom: 4px; margin: 22px 0 8px; }
 .cvscroll h3 { font-size: 15px; margin: 12px 0 2px; }
 .cvscroll h3 span { display: block; color: var(--muted); font-weight: 400; font-size: 13px; }
+.cvscroll .tech { color: var(--accent-soft); font-family: var(--mono); font-size: 12.5px; margin: 0; text-align: start; }
+.cvscroll p.sk { display: flex; flex-direction: column; gap: 0; margin: 6px 0; }
+.cvscroll p.sk b { color: var(--accent-soft); font-size: 14px; }
+.cvscroll p.sk span { color: var(--fg); overflow-wrap: anywhere; }
 .cvscroll p { margin: 4px 0; } .cvscroll ul { margin: 4px 0; padding-inline-start: 20px; }
 
 /* brand */
