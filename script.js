@@ -31,6 +31,7 @@
     langTxt.textContent = l === 'en' ? 'ع' : 'EN';
     langBtn.setAttribute('aria-label', l === 'en' ? 'العربية' : 'English');
     paintTheme();
+    if (window.__cvRefresh) window.__cvRefresh();
     if (!silent) save('bm-lang', l);
     requestAnimationFrame(function () {
       [].slice.call(document.querySelectorAll('.track')).forEach(function (t) { if (t._go) t._go(0, true); });
@@ -221,11 +222,47 @@
 
   /* ---------- CV viewer ---------- */
   (function () {
-    var m = document.getElementById('cvModal'), o = document.getElementById('cvOpen'), c = document.getElementById('cvClose');
-    if (!m || !o) return;
-    function open() { m.hidden = false; root.style.overflow = 'hidden'; document.getElementById('cvScroll').scrollTop = 0; c.focus(); }
-    function close() { m.hidden = true; root.style.overflow = ''; o.focus(); }
-    o.addEventListener('click', open); c.addEventListener('click', close);
+    var m = document.getElementById('cvModal'), c = document.getElementById('cvClose'), sc = document.getElementById('cvScroll');
+    var pdf = document.getElementById('cvPdf'), ttl = document.getElementById('cvTitle');
+    if (!m) return;
+    var cur = null;
+    var NAMES = { Odoo: { ar: 'سيرة مطور Odoo ERP', en: 'Odoo ERP Developer résumé' }, FullStack: { ar: 'سيرة مطور Full-Stack Web', en: 'Full-Stack Web Developer résumé' } };
+    function key(v) { return v + '_' + (lang === 'en' ? 'EN' : 'AR'); }
+    function href(v) { return 'assets/Basem_Ashraf_CV_' + key(v) + '.pdf'; }
+    function refresh() {
+      [].slice.call(document.querySelectorAll('[data-pdf]')).forEach(function (a) { a.href = href(a.getAttribute('data-pdf')); });
+      if (cur && !m.hidden) render();
+    }
+    function render() {
+      var st = document.querySelector('#cvStore [data-k="' + key(cur) + '"]');
+      sc.innerHTML = st ? st.innerHTML : '';
+      sc.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+      pdf.href = href(cur); ttl.textContent = NAMES[cur][lang === 'en' ? 'en' : 'ar'];
+    }
+    function open(v) { cur = v; render(); m.hidden = false; root.style.overflow = 'hidden'; sc.scrollTop = 0; c.focus(); }
+    function close() { m.hidden = true; root.style.overflow = ''; }
+    [].slice.call(document.querySelectorAll('[data-cv]')).forEach(function (b) { b.addEventListener('click', function () { open(b.getAttribute('data-cv')); }); });
+    c.addEventListener('click', close);
+    m.addEventListener('click', function (e) { if (e.target === m) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) close(); });
+    window.__cvRefresh = refresh; refresh();
+  })();
+
+  /* ---------- project: problem and solution ---------- */
+  (function () {
+    var m = document.getElementById('pModal'), c = document.getElementById('pmClose'), body = document.getElementById('pmBody');
+    if (!m) return;
+    function open(card) {
+      body.innerHTML = '<div class="pm-art">' + card.querySelector('.art').innerHTML + '</div>' + card.querySelector('.tg').outerHTML + card.querySelector('h3').outerHTML + card.querySelector('.pdata').innerHTML + card.querySelector('.chips').outerHTML;
+      body.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+      m.hidden = false; root.style.overflow = 'hidden'; body.scrollTop = 0; c.focus();
+    }
+    function close() { m.hidden = true; root.style.overflow = ''; }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.pbtn') : null;
+      if (b) open(b.closest('.pcard'));
+    });
+    c.addEventListener('click', close);
     m.addEventListener('click', function (e) { if (e.target === m) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) close(); });
   })();
