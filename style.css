@@ -1,3 +1,4 @@
+
 /* Layout: centered mobile-first purple page. Sticky pill nav with theme and language buttons, head avatar hero, coverflow carousels, marquee of tech logos, count-up achievements, contact card. Dark by default, light on request. */
 @property --bg { syntax: "<color>"; inherits: true; initial-value: #060D1F; }
 :root {
