@@ -260,12 +260,42 @@
     }
     function close() { m.hidden = true; root.style.overflow = ''; }
     document.addEventListener('click', function (e) {
-      var b = e.target.closest ? e.target.closest('.pbtn') : null;
-      if (b) open(b.closest('.pcard'));
+      var b = e.target.closest ? e.target.closest('.pcard') : null;
+      if (b && b.querySelector('.pdata')) open(b);
     });
     c.addEventListener('click', close);
     m.addEventListener('click', function (e) { if (e.target === m) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) close(); });
+  })();
+
+
+  /* ---------- hover spotlight + smooth wheel scroll ---------- */
+  (function () {
+    document.addEventListener('pointermove', function (e) {
+      var t = e.target.closest ? e.target.closest('.pcard, .ccard, .tasks li') : null;
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      t.style.setProperty('--mx', (e.clientX - r.left) + 'px'); t.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var target = window.scrollY, cur = target, raf = 0;
+    function max() { return document.documentElement.scrollHeight - window.innerHeight; }
+    function tick() {
+      cur += (target - cur) * 0.12;
+      if (Math.abs(target - cur) < 0.5) { cur = target; raf = 0; window.scrollTo({ top: cur, behavior: 'instant' }); return; }
+      window.scrollTo({ top: cur, behavior: 'instant' }); raf = requestAnimationFrame(tick);
+    }
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      var t = e.target;
+      if (t.closest && t.closest('#cvModal, #pModal, #splash, textarea, .track')) return;
+      e.preventDefault();
+      if (!raf) { cur = window.scrollY; target = cur; }
+      var dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
+      target = Math.max(0, Math.min(max(), target + dy));
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: false });
+    window.addEventListener('scroll', function () { if (!raf) { cur = target = window.scrollY; } }, { passive: true });
   })();
 
   /* ---------- background follows scroll ---------- */
