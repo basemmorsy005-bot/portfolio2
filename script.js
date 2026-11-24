@@ -204,7 +204,7 @@
   /* ---------- copy buttons ---------- */
   [].slice.call(document.querySelectorAll('.copy')).forEach(function (b) {
     b.addEventListener('click', function () {
-      var v = atob(b.getAttribute('data-e')), label = b.querySelector('small'), old = label.innerHTML;
+      var v = b.getAttribute('data-v'), label = b.querySelector('small'), old = label.innerHTML;
       function ok() { b.classList.add('done'); label.textContent = copyLbl[lang]; setTimeout(function () { b.classList.remove('done'); label.innerHTML = label.getAttribute(lang === 'en' ? 'data-en' : 'data-ar'); }, 1600); }
       function fallback() {
         try { var r = document.createRange(); r.selectNodeContents(b.querySelector('span')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
@@ -314,10 +314,8 @@
     if (!form) return;
     /* Web3Forms access keys, one per inbox. Each key is created for one email address on web3forms.com.
        The message is sent to every key listed. */
-    var FORM_KEYS = ['ZDI5YWNkZmEtNTkxMy00M2MyLWFhYTEtZjYzZDI3ZjY0ZGFl', 'NmFiNzVhMzgtNzI5Ni00YTRjLWJlNWEtYjVjYTgxYjY5Y2Y4'].map(function (x) { return atob(x); });
-    var WA = atob('MjAxMDkxNTQ5MDg2');
-    var waTop = document.querySelector('a.wa[data-p]');
-    if (waTop) waTop.addEventListener('click', function (e) { e.preventDefault(); window.open('https://wa.me/' + atob(waTop.getAttribute('data-p')), '_blank', 'noopener'); });
+    var FORM_KEYS = ['d29acdfa-5913-43c2-aaa1-f63d27f64dae', '6ab75a38-7296-4a4c-be5a-b5ca81b69cf8'];
+    var WA = '201091549086';
     var btn = document.getElementById('fsend'), msgEl = document.getElementById('fmsg');
     var fb = document.getElementById('ffall'), wa = document.getElementById('fwa'), cp = document.getElementById('fcopy');
     var M = {
