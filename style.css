@@ -47,7 +47,7 @@
 :root[data-theme="light"][data-sec="contact"] { --bg: #EAF0FD; }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; overflow-x: clip; }
 body {
   background: var(--bg);
   color: var(--fg);
@@ -239,7 +239,7 @@ footer a { text-decoration: none; }
 
 /* animated background tied to scroll */
 .bgfx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; --sp: 0; }
-.bgfx i { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; will-change: transform; }
+.bgfx i { position: absolute; border-radius: 50%; contain: strict; opacity: .55; will-change: transform; }
 .bgfx .o1 { width: 62vmax; height: 62vmax; left: -22vmax; top: -18vmax; background: radial-gradient(circle, var(--accent), transparent 68%); transform: translate3d(calc(var(--sp) * 46vw), calc(var(--sp) * 70vh), 0) scale(calc(1 + var(--sp) * .5)); }
 .bgfx .o2 { width: 52vmax; height: 52vmax; right: -20vmax; top: 24vh; background: radial-gradient(circle, #06B6D4, transparent 68%); opacity: .38; transform: translate3d(calc(var(--sp) * -52vw), calc(var(--sp) * -36vh), 0) scale(calc(1.15 - var(--sp) * .3)); }
 .bgfx .o3 { width: 46vmax; height: 46vmax; left: 8vw; bottom: -26vmax; background: radial-gradient(circle, #6366F1, transparent 68%); opacity: .4; transform: translate3d(calc(var(--sp) * 40vw), calc(var(--sp) * -48vh), 0); }
